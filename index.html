@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title>to do list</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/todo.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+</head>
+<body ng-controller="ctrl">
+<div class="todo container" >
+    <h1>To Do List</h1>
+        <div class="bigBox row">
+            <!--头部-->
+            <header>
+                 <div class="heads col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <span class="head-left icon-shouyeshouye iconfont"></span>
+                     <div class="head-center">Checklist</div>
+                     <span class="head-right icon-touxiang iconfont"></span>
+                 </div>
+            </header>
+
+            <!--内容-->
+            <div class="con col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!--left-->
+                <div class="con-left col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <!--搜索框-->
+                    <div class="input-group input-group-lg search ">
+                        <input type="text" class="form-control" placeholder="Search..." ng-model="search">
+                        <span class="iconfont icon-sousuo"></span>
+                    </div>
+                    <div class="left-list" ng-click="isshow=true">
+                        Plan
+                        <span class="iconfont icon-f-plus" ng-click="addList()"></span>
+                    </div>
+                    <div class="list" ng-repeat="item in data |filter:search track by item.id">
+                        <input type="text" placeholder="Plan Here!" ng-model="item.title" ng-blur="blur(item.id)" ng-focus="focus(item.id)" >
+                        <span class="icon-shan iconfont" ng-click="removeList(item.id)"></span>
+                    </div>
+
+                </div>
+                <!--原有的页面-->
+                <!--right-->
+                <div class="con-right col-lg-9 col-md-9 col-sm-9 col-xs-9" ng-show="isshow">
+                    <!--title-->
+                    <div class="con-right-center">
+                        <input type="text" placeholder="Title Here!" value="{{currentCon.title}}">
+                    </div>
+                    <span class="con-right-right icon-tianjia iconfont" ng-click="addCon()"></span>
+                    <!--title  end-->
+                    <!--content-->
+                    <div class="con-right-con"><span>What plans do you today?</span>
+                        <div class="listCon" ng-repeat="item in currentCon.son track by item.id">
+                            <div class="con-right-con-left" ng-click="done(item.id)">✓</div>
+                            <div class="con-right-con-center">
+                                <input type="text" placeholder="Concent Here!" ng-model="item.title" ng-blur="conBlur(item.id)" value="item.title">
+                            </div>
+                            <div class="con-right-con-right"  ng-click="removeCon(item.id)">⨉</div>
+                        </div>
+                    </div>
+                    <!--content  end-->
+                </div>
+
+                <!--点击已完成时的页面-->
+                <!--right-->
+                <div class="con-right col-lg-9 col-md-9 col-sm-9 col-xs-9" ng-show="!isshow">
+                    <!--title-->
+                    <div class="con-right-center">
+                        <input type="text" placeholder="Have Done" value="{{currentCon.title}}">
+                    </div>
+                    <!--title  end-->
+                    <!--content-->
+                    <div class="con-right-con"><span>What plans do you today?</span>
+                        <div class="listCon" ng-repeat="item in success track by item.id">
+                            <div class="con-right-con-center">
+                                <input type="text" placeholder="Concent Here!" ng-model="item.title" value="item.title">
+                            </div>
+                            <div class="con-right-con-right"  ng-click="removeDone(item.id)">⨉</div>
+                        </div>
+                    </div>
+                    <!--content  end-->
+                </div>
+            </div>
+            <!--底部-->
+            <footer>
+                <div class="foots col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="all">All<sup>{{currentCon.son.length}}</sup></div>
+                    <div class="ing">
+                        <span class="icon-unfinish iconfont"><sup>0</sup></span>
+                    </div>
+                    <div class="done" ng-click="isshow=false">
+                        <span class="icon-yiwancheng iconfont"><sup>{{success.length}}</sup></span>
+                    </div>
+                    <div class="clear">
+                        <span class="icon-shan iconfont"></span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+</div>
+</body>
+<script src="js/jquery.js"></script>
+<script src="../node_modules/angular/angular.min.js"></script>
+<script src="js/todo.js"></script>
+<script src="js/index.js"></script>
+</html>
